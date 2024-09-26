@@ -1,10 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import { IProductRepository } from "../repositories/IProductRepository.ts";
 import { Product } from "../entities/Product.ts";
-import { Request } from "https://deno.land/x/oak@v17.0.0/mod.ts";
 import { ProductInputDto } from "../dtos/ProductInputDto.ts";
 import { ZodError } from "https://deno.land/x/zod@v3.23.8/mod.ts";
-import { ResponseBody } from "https://deno.land/x/oak@v17.0.0/response.ts";
 import { createResponseString } from "../presentation/utils/BaseResponse.ts";
 import { toGenericIssuesList } from "../presentation/utils/handleZodErrors.ts";
 
@@ -16,6 +14,7 @@ export class ProductController {
     onResponse: (responseBody: string, statusCode: number) => void
   ) {
     try {
+      console.log(requestBody);
       const productInput = ProductInputDto.parse(requestBody);
       const productId = crypto.randomUUID();
       const product = new Product(

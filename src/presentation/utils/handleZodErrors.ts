@@ -1,12 +1,17 @@
-import { ZodError } from "https://deno.land/x/zod@v3.23.8/ZodError.ts";
+import {
+  ZodError,
+  ZodInvalidTypeIssue,
+} from "https://deno.land/x/zod@v3.23.8/ZodError.ts";
 
 export function toGenericIssuesList({ error }: { error: any }): string[] {
   if (error instanceof ZodError) {
     return (error as ZodError).issues.map((pr) => {
-      if (pr.recieved == undefined) {
-        return `"${pr.path[0]}" is missing.`;
+      if ((pr as ZodInvalidTypeIssue).received === "undefined") {
+        return `${pr.path.join(", ")} is missing.`;
       }
-      return `${pr.code}: "${pr.path[0]}" expected ${pr.expected}, but recieved ${pr.recieved}.`;
+      return `${pr.path.join(", ")} expected ${
+        (pr as ZodInvalidTypeIssue).expected
+      }, but recieved ${(pr as ZodInvalidTypeIssue).received}.`;
     });
   }
   return [];

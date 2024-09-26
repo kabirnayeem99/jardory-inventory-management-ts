@@ -6,11 +6,14 @@ const router = new Router();
 const productRepository = new ProductRepository();
 const productController = new ProductController(productRepository);
 
-router.post("/product-management/add-new-product", (ctx) => {
-  productController.addNewProduct(ctx, (responseBody, statusCode) => {
-    ctx.response.status = statusCode;
-    ctx.response.body = responseBody;
-  });
+router.post("/product-management/add-new-product", async (ctx) => {
+  productController.addNewProduct(
+    await ctx.request.body.json(),
+    (responseBody, statusCode) => {
+      ctx.response.status = statusCode;
+      ctx.response.body = responseBody;
+    }
+  );
 });
 
 export default router;
