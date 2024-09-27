@@ -1,0 +1,24 @@
+meta {
+  name: product-management/add-new-product
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/product-management/add-new-product
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Sample Product",
+    "sku": "SKU123",
+    "price": 29.99,
+    "stock": 100
+  }
+}
